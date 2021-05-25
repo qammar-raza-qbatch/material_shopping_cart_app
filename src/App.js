@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { IconButton, CssBaseline, AppBar, Toolbar, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { ChevronRight, ChevronLeft, Mail, MoveToInbox } from '@material-ui/icons';
-
+import { increment, getTasks } from './Reducers/Index'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +72,12 @@ const App = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [listItems, setListItems] = useState(['Inbox', 'Starred', 'Send email', 'Drafts']);
+  const dispatch = useDispatch();
+  const initialSlice = useSelector((state) => state.indexReducer);
+
+  useEffect(() => {
+    dispatch(increment());
+  }, []);
 
 
   const handleDrawerClose = () => {
@@ -82,7 +89,7 @@ const App = () => {
     setOpen(true);
   }
 
-
+  console.log('this is the total State: ', initialSlice)
 
 
   return (
