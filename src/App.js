@@ -42,15 +42,19 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
-    })
+    }),
+    // color: "#7D7D7D",
+    color: "#000",
+    backgroundColor: "lightgrey",
   },
   drawerClose: {
-    // width: '240px',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
     overflowX: 'hidden',
+    backgroundColor: "lightgrey",
+    color: "#000",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1
@@ -62,7 +66,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar
-  }
+  },
+  menuIcons: {
+    color: "#7D7D7D",
+  },
+  textFont: {
+    fontFamily: "Pattaya"
+  },
 }))
 
 
@@ -71,6 +81,7 @@ const App = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [listItems, setListItems] = useState(['Inbox', 'Starred', 'Send email', 'Drafts']);
   const dispatch = useDispatch();
   const initialSlice = useSelector((state) => state.indexReducer);
@@ -114,9 +125,9 @@ const App = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Mini variant drawer
-          </Typography>
+          <Typography variant="h5" className={classes.textFont}>
+            Shopping Mart
+            </Typography>
         </Toolbar>
       </AppBar>
 
@@ -134,17 +145,22 @@ const App = () => {
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} color="primary">
             {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List >
           {
             listItems.map((text, index) => {
               return (
-                <ListItem key={index} button>
-                  <ListItemIcon>
+                <ListItem
+                  key={index}
+                  button
+                  selected={index === selectedIndex}
+                  onClick={() => setSelectedIndex(index)}
+                >
+                  <ListItemIcon className={classes.menuIcons}>
                     {
                       index % 2 === 0 ? <MoveToInbox /> : <Mail />
                     }
