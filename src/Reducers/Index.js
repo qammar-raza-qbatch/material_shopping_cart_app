@@ -9,6 +9,22 @@ const initialState = {
   fetching: false
 }
 
+export const getTasks = createAsyncThunk('/test', async (values, thunkAPI) => {
+  try {
+    const response = await axios.get('http://localhost:8080/v1/products');
+    return response.data
+  } catch (error) {
+    console.log('this is the error: ', error)
+
+    return thunkAPI.rejectWithValue({
+      err: error.response.data.message,
+      status: error.response.status
+    })
+
+
+  }
+})
+
 
 const indexReducer = createSlice({
   name: 'initialReducer',
@@ -22,6 +38,25 @@ const indexReducer = createSlice({
     }
   },
   extraReducers: {
+    [getTasks.pending]: (state, action) => {
+      return {
+        ...state,
+        fetching: true
+      }
+    },
+    [getTasks.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+        fetching: false
+      }
+    },
+    [getTasks.rejected]: (state, action) => {
+      return {
+        ...state,
+        fetching: false,
+      }
+    }
   }
 });
 

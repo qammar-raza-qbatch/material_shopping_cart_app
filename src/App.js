@@ -87,7 +87,8 @@ const App = () => {
   const initialSlice = useSelector((state) => state.indexReducer);
 
   useEffect(() => {
-    dispatch(increment());
+    // dispatch(increment());
+    dispatch(getTasks())
   }, []);
 
 
@@ -99,8 +100,6 @@ const App = () => {
     console.log('Open Drawer Button is clicked');
     setOpen(true);
   }
-
-  console.log('this is the total State: ', initialSlice)
 
 
   return (
