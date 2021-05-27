@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
-
 const initialState = {
   initialValue: 0,
   name: 'qammar raza',
@@ -20,11 +19,8 @@ export const getTasks = createAsyncThunk('/test', async (values, thunkAPI) => {
       err: error.response.data.message,
       status: error.response.status
     })
-
-
   }
 })
-
 
 const indexReducer = createSlice({
   name: 'initialReducer',
