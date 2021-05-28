@@ -1,10 +1,36 @@
 import React from 'react';
+import DashboardComponent from '../Components/Dashboard/Dashboard';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core'
+
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  container: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  },
+}))
 
 const Dashboard = () => {
+
+  const classes = useStyles();
+
   return (
-    <div>
-      <h1>Dashboard Page</h1>
-    </div>
+
+    <main className={classes.content}>
+      <div className={classes.appBarSpacer}>
+        <Container className={classes.container} maxWidth="lg">
+          <DashboardComponent />
+        </Container>
+      </div>
+
+    </main>
   )
 }
 
