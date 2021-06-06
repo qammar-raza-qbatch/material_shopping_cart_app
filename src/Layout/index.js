@@ -6,11 +6,13 @@ import clsx from 'clsx';
 import { IconButton, CssBaseline, AppBar, Toolbar, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { ChevronRight, ChevronLeft, Mail, MoveToInbox, Dashboard, ViewList } from '@material-ui/icons';
-import { increment, getTasks } from '../Reducers/Index';
+import { getTasks } from '../Reducers/Index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    height: '100vh',
+    background: 'lightgrey'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -44,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
     }),
-    // color: "#7D7D7D",
     color: "#000",
     backgroundColor: "lightgrey",
   },
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'hidden',
     backgroundColor: "lightgrey",
     color: "#000",
-    width: theme.spacing(7) + 1,
+    width: theme.spacing(2) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1
     }
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   menuIcons: {
     color: "#7D7D7D",
@@ -92,6 +93,9 @@ const App = ({ children }) => {
   const dispatch = useDispatch();
   const initialSlice = useSelector((state) => state.indexReducer);
 
+
+  console.log('this is the initial State: ', initialSlice);
+
   useEffect(() => {
     dispatch(getTasks())
   }, []);
@@ -102,7 +106,6 @@ const App = ({ children }) => {
   }
 
   const handleDrawerOpen = () => {
-    console.log('Open Drawer Button is clicked');
     setOpen(true);
   }
 
@@ -178,9 +181,6 @@ const App = ({ children }) => {
                   onClick={() => handleClick(index, text)}
                 >
                   <ListItemIcon className={classes.menuIcons}>
-                    {/* {
-                      index % 2 === 0 ? <MoveToInbox /> : <Mail />
-                    } */}
                     {index === 0 ? (
                       <Dashboard />
                     ) : index === 1 ? (
