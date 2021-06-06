@@ -106,7 +106,6 @@ const App = ({ children }) => {
   }
 
   const handleDrawerOpen = () => {
-    console.log('Open Drawer Button is clicked');
     setOpen(true);
   }
 

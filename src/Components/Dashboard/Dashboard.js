@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from './Charts';
 import Deposits from './Deposits';
+import Orders from './Orders';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Grid } from '@material-ui/core';
@@ -37,6 +38,11 @@ const DashboardComponent = () => {
       <Grid item xs={12} md={4} lg={4}>
         <Paper className={fixedHeightPaper}>
           <Deposits />
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Orders />
         </Paper>
       </Grid>
     </Grid>
