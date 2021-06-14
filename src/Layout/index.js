@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux'
+import { setDrawerOpen, setDrawerClose } from '../Reducers/Css-reducer';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { IconButton, CssBaseline, AppBar, Toolbar, Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { ChevronRight, ChevronLeft, Mail, MoveToInbox, Dashboard, ViewList } from '@material-ui/icons';
-import { getTasks } from '../Reducers/Index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    height: '100vh',
+    height: '100%',
+    width: '100vw',
     background: 'lightgrey'
   },
   appBar: {
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   menuIcons: {
     color: "#7D7D7D",
@@ -84,34 +85,46 @@ const useStyles = makeStyles((theme) => ({
 
 
 const App = ({ children }) => {
+
+  const select = useSelector((state) => state.cssReducer);
+  const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [listItems, setListItems] = useState(['Dashboard', 'Products', 'Send email', 'Drafts']);
-  const dispatch = useDispatch();
-  const initialSlice = useSelector((state) => state.indexReducer);
 
-
-  console.log('this is the initial State: ', initialSlice);
+  const { main_drawer_open } = select || {};
 
   useEffect(() => {
-    dispatch(getTasks())
+    console.log({ history })
+    selectionFunction(history.location.pathname)
   }, []);
+
+  const selectionFunction = (path) => {
+    const splitPath = path.split('/');
+    console.log({ lastEord: splitPath[splitPath.length - 1] });
+    if (splitPath[splitPath.length - 1] === 'main') {
+      setSelectedIndex(0);
+    } else if (splitPath[splitPath.length - 1] === 'products') {
+      setSelectedIndex(1);
+    } else {
+      setSelectedIndex(2);
+    }
+  }
 
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    dispatch(setDrawerClose());
   }
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    dispatch(setDrawerOpen());
   }
 
   const handleClick = (index, text) => {
     setSelectedIndex(index);
-    if (text == 'Dashboard') {
+    if (text === 'Dashboard') {
       history.push({
         pathname: `/dashboard/main`
       })
@@ -125,10 +138,10 @@ const App = ({ children }) => {
 
   return (
 
-    <div className={classes.root}>
+    <div className={classes.root} >
       <CssBaseline />
       <AppBar position="fixed" className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
+        [classes.appBarShift]: main_drawer_open,
       })}
       >
         <Toolbar>
@@ -139,7 +152,7 @@ const App = ({ children }) => {
             onClick={handleDrawerOpen}
             className={
               clsx(classes.menuButton, {
-                [classes.hide]: open,
+                [classes.hide]: main_drawer_open,
               })
             }
           >
@@ -154,13 +167,13 @@ const App = ({ children }) => {
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+          [classes.drawerOpen]: main_drawer_open,
+          [classes.drawerClose]: !main_drawer_open,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open
+            [classes.drawerOpen]: main_drawer_open,
+            [classes.drawerClose]: !main_drawer_open
           })
         }}
       >
@@ -181,9 +194,9 @@ const App = ({ children }) => {
                   onClick={() => handleClick(index, text)}
                 >
                   <ListItemIcon className={classes.menuIcons}>
-                    {index === 0 ? (
+                    {index === 0 && history.location.pathname === '/dashboard/main' ? (
                       <Dashboard />
-                    ) : index === 1 ? (
+                    ) : index === 1 && history.location.pathname === '/dashboard/products' ? (
                       <ViewList />
                     ) : index === 2 ? (
                       <Mail />
