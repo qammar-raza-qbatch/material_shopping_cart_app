@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
+    overflow: 'hidden',
   },
   appBarSpacer: theme.mixins.toolbar,
   container: {
@@ -22,14 +22,12 @@ const Dashboard = () => {
   const classes = useStyles();
 
   return (
-
     <main className={classes.content}>
       <div className={classes.appBarSpacer}>
         <Container className={classes.container} maxWidth="lg">
           <DashboardComponent />
         </Container>
       </div>
-
     </main>
   )
 }

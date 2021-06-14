@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import axios from 'axios';
+import axios from '../config/axios';
 
 const initialState = {
   initialValue: 0,
@@ -10,7 +10,7 @@ const initialState = {
 
 export const getTasks = createAsyncThunk('/test', async (values, thunkAPI) => {
   try {
-    const response = await axios.get('http://localhost:8080/v1/products');
+    const response = await axios.get('/v1/products');
     return response.data
   } catch (error) {
     console.log('this is the error: ', error)
